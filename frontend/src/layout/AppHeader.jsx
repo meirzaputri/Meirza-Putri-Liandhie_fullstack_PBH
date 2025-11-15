@@ -1,12 +1,7 @@
 import React from "react";
 import logo from "../assets/logo.png";
 import { MdDehaze } from 'react-icons/md';
-
-const useSidebar = () => {
-    const toggleSidebar = () => console.log("Desktop Sidebar");
-    const toggleMobileSidebar = () => console.log("Mobile Sidebar");
-    return { toggleSidebar, toggleMobileSidebar };
-};
+import { useSidebar } from "../context/SidebarContext";
 
 export default function AppHeader() {
     const { toggleSidebar, toggleMobileSidebar } = useSidebar();

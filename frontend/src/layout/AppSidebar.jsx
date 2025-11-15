@@ -10,24 +10,18 @@ const menu = [
 ];
 
 export default function AppSidebar() {
-  const { mobileOpen, toggleMobile } = useSidebar();
-  const location = useLocation();
+    const { isExpanded, isMobileOpen } = useSidebar();
+    const location = useLocation();
+    const isVisible = isExpanded || isMobileOpen;
 
-  return (
+
+    return (
     <>
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={toggleMobile}
-        />
-      )}
-
-      <aside className={`fixed top-0 left-0 h-full bg-white dark:bg-gray-900 shadow-lg border-r 
-          border-gray-200 dark:border-gray-700 z-50 w-64 transition-transform
-          ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
-          lg:translate-x-0
-        `}
-      >
+      <aside
+            className={`fixed top-0 left-0 h-screen bg-white shadow-lg z-40 transform transition-transform duration-300
+                ${isExpanded || isMobileOpen ? "translate-x-0 w-64" : "-translate-x-full w-20"}
+                lg:translate-x-0 lg:w-64`}
+        >
 
         <div className="p-6 font-bold text-xl text-gray-800 dark:text-white flex justify-center">
             <img
@@ -51,10 +45,13 @@ export default function AppSidebar() {
                   ${active
                     ? "bg-[#216eec] text-white shadow font-semibold"
                     : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"}
+                    ${!isVisible ? 'justify-start' : ''}
                 `}
               >
                 {item.icon}
-                <span>{item.name}</span>
+                {isVisible && (
+                    <span className="flex-1 text-left">{item.name}</span> 
+                )}
               </Link>
             );
           })}
@@ -66,7 +63,9 @@ export default function AppSidebar() {
               text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 w-full text-left"
           >
             <MdLogout size={22} />
-            Logout
+            {isVisible && (
+                <span className="flex-1">Logout</span>
+            )}
           </button>
         </div>
       </aside>
