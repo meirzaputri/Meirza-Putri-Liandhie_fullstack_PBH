@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import Label from "../components/form/Label";
-import Input from "../components/form/Input/InputField";
-import logo from '../assets/logo.png';
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import Label from "../components/Label";
+import Input from "../components/Input/InputField";
+import logo from "../assets/logo.png";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,11 +12,7 @@ export default function Login() {
     <div className="flex md:justify-center md:items-center min-h-screen">
       <div className="w-full max-w-lg mx-auto bg-white p-8 sm:p-10 rounded-xl shadow-2xl dark:bg-gray-800 transition-all duration-300">
         <div className="flex justify-center m-2">
-        <img
-            src={logo}
-            alt="PT Permata Bukit Hijau"
-            className="w-24 h-15"
-        />
+          <img src={logo} alt="PT Permata Bukit Hijau" className="w-24 h-15" />
         </div>
         <div>
           <div className="mb-6 sm:mb-8">
@@ -31,29 +27,42 @@ export default function Login() {
           <form>
             <div className="space-y-6">
               <div>
-                <Label htmlFor="email">Email<span className="text-red-500">*</span></Label>
-                <Input type="email" id="email" name="email" placeholder="Enter your email" />
+                <Label htmlFor="email">
+                  Email<span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                />
               </div>
-              
+
               <div>
-                <Label htmlFor="password">Password<span className="text-red-500">*</span></Label>
+                <Label htmlFor="password">
+                  Password<span className="text-red-500">*</span>
+                </Label>
                 <div className="relative">
-                  <Input id="password" placeholder="Enter your password" type={showPassword ? "text" : "password"} />
+                  <Input
+                    id="password"
+                    placeholder="Enter your password"
+                    type={showPassword ? "text" : "password"}
+                  />
                   <span
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
                   >
                     {showPassword ? (
-                        <MdVisibilityOff size={24} /> 
+                      <MdVisibilityOff size={24} />
                     ) : (
-                        <MdVisibility size={24} />
+                      <MdVisibility size={24} />
                     )}
                   </span>
                 </div>
               </div>
-              
+
               <div>
-                <button 
+                <button
                   type="submit"
                   className="flex items-center justify-center w-full px-4 py-3 text-base font-medium text-white transition rounded-lg shadow-lg bg-[#216eec]  hover:bg-[#1654b7]"
                 >
@@ -77,6 +86,5 @@ export default function Login() {
         </div>
       </div>
     </div>
-    
   );
 }

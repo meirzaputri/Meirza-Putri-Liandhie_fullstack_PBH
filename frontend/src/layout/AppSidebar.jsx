@@ -6,7 +6,7 @@ import logo from "../assets/logo.png";
 const menu = [
   { name: "Dashboard", path: "/apps/dashboard", icon: <MdDashboard size={22} /> },
   { name: "Transaction", path: "/apps/transactions", icon: <MdAttachMoney size={22} /> },
-  { name: "Report", path: "/reports", icon: <MdMenuBook size={22} /> },
+  { name: "Report", path: "/apps/reports", icon: <MdMenuBook size={22} /> },
 ];
 
 export default function AppSidebar() {
@@ -73,7 +73,7 @@ export default function AppSidebar() {
         isMobileOpen && (
         <div onClick={() => toggleMobileSidebar()} className="fixed inset-0 z-30 lg:hidden"/>
       )}
-      
+
     </>
   );
 }

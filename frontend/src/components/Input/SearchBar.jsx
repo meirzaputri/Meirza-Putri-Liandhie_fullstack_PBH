@@ -5,7 +5,7 @@ export default function SearchBar({ search, setSearch }) {
         <div className="border border-gray-300 p-2 rounded-xl shadow-sm flex items-center flex-grow">
             <input
                 type="text"
-                placeholder="Cari Data Transaksi..."
+                placeholder="Search...."
                 className="w-full outline-none text-black pr-2"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
