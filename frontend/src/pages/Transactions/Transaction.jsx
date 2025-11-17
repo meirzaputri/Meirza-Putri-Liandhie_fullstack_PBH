@@ -3,6 +3,7 @@ import SearchBar from "../../components/Input/SearchBar";
 import Pagination from "../../components/Pagination";
 import TransactionTable from "../../components/Tabel";
 import FilterModal from "../../components/FilterModal";
+import FormModal from "../../components/FormModal";
 import { FiFilter } from "react-icons/fi";
 import { MdAdd } from "react-icons/md";
 
@@ -15,6 +16,9 @@ export default function Transaction() {
 
   const [tanggalPilih, setTanggalPilih] = useState("");
   const [tanggalTransaksi, setTanggalTransaksi] = useState(""); 
+
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [editData, setEditData] = useState(null);
 
 
   const data = [
@@ -165,7 +169,12 @@ export default function Transaction() {
             <FiFilter size={20} />
           </button>
 
-          <button className="flex items-center justify-center gap-1 px-4 py-2 text-base font-medium text-white rounded-lg shadow-md bg-blue-500 hover:bg-blue-400 shrink-0 whitespace-nowrap">
+          <button className="flex items-center justify-center gap-1 px-4 py-2 text-base font-medium text-white rounded-lg shadow-md bg-blue-500 hover:bg-blue-400 shrink-0 whitespace-nowrap"
+            onClick={() => {
+              setIsFormModalOpen(true); 
+              setEditData(null);
+            }}
+          >
             <MdAdd size={20} />
             <span>Tambah Transaksi</span>
           </button>
@@ -195,6 +204,15 @@ export default function Transaction() {
           setIsFilterModalOpen(false);
         }}
         onClose={() => setIsFilterModalOpen(false)}
+      />
+
+      <FormModal
+        isOpen={isFormModalOpen}
+        onClose={() => setIsFormModalOpen(false)}
+        initialData={editData}
+        onSubmit={(data) => {
+          console.log("Data baru / edit:", data);
+        }}
       />
 
       <hr className="my-4 border-gray-200" />

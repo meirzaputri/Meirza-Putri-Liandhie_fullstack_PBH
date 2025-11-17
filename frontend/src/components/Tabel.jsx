@@ -1,5 +1,7 @@
 import React from "react";
 import ActionDropdown from "./ActionDropdown";
+import FormModal from "./FormModal";
+import { useState } from "react";
 
 function Table({
   item,
@@ -38,6 +40,7 @@ function Table({
         itemId={item.id}
         openDropdown={openDropdown}
         setOpenDropdown={setOpenDropdown}
+        onEdit={() => onEdit(item.id)}  
       />
     </tr>
   );
@@ -54,7 +57,11 @@ export default function TransactionTable({
     return null;
   }
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+
   return (
+    <>
     <div className="w-full border border-gray-300 rounded-lg shadow-sm overflow-x-auto">
       <table className="min-w-[900px] w-full border-collapse">
         <thead>
@@ -81,5 +88,11 @@ export default function TransactionTable({
         </tbody>
       </table>
     </div>
+    <FormModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        initialData={selectedData}
+      />
+    </>
   );
 }
