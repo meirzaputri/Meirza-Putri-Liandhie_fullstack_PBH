@@ -1,7 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdDashboard, MdAttachMoney, MdMenuBook, MdLogout } from "react-icons/md";
 import { useSidebar } from "../context/SidebarContext";
 import logo from "../assets/logo.png";
+
+import { logout } from "../services/auth";
 
 const menu = [
   { name: "Dashboard", path: "/apps/dashboard", icon: <MdDashboard size={22} /> },
@@ -13,6 +15,23 @@ export default function AppSidebar() {
     const { isExpanded, isMobileOpen, toggleMobileSidebar } = useSidebar();
     const location = useLocation();
     const isVisible = isExpanded || isMobileOpen;
+
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        const token = localStorage.getItem("token");
+
+        try {
+            await logout(token);
+        } catch (err) {
+            console.error("Logout error:", err);
+        }
+
+        localStorage.removeItem("token");
+
+        navigate("/");
+    };
+
 
     return (
     <>
@@ -58,6 +77,7 @@ export default function AppSidebar() {
 
         <div className="px-4 py-4">
           <button
+            onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-2 rounded-lg text-sm
               text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 w-full text-left"
           >
