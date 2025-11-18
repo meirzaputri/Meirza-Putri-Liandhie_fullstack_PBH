@@ -5,6 +5,9 @@ import TransactionTable from "../../components/Tabel";
 import FilterModal from "../../components/FilterModal";
 import FormModal from "../../components/FormModal";
 import DetailModal from "../../components/DetailModal";
+
+import { getTransactions, createTransaction } from "../../services/transaction";
+import { useAuth } from "../../context/AuthContext";
 import { FiFilter } from "react-icons/fi";
 import { MdAdd } from "react-icons/md";
 
@@ -24,106 +27,31 @@ export default function Transaction() {
   const [detailOpen, setDetailOpen] = useState(false);
   const [detailData, setDetailData] = useState(null);
 
+  const [transactions, setTransactions] = useState([]);
+  const { token, user } = useAuth();
 
-  const data = [
-    {
-      id: 1,
-      name: "Pembelian ATK",
-      date: "2025-11-17",
-      category: "Kas Keluar",
-      amount: 320000,
-      createdBy: "Admin",
-    },
-    {
-      id: 2,
-      name: "Pembayaran Siswa",
-      date: "2025-11-17",
-      category: "Kas Masuk",
-      amount: 1500000,
-      createdBy: "Clara",
-    },
-    {
-      id: 3,
-      name: "Gaji Karyawan",
-      date: "2025-11-17",
-      category: "Kas Keluar",
-      amount: 5000000,
-      createdBy: "Manager",
-    },
-    {
-      id: 4,
-      name: "Donasi",
-      date: "2025-11-17",
-      category: "Kas Masuk",
-      amount: 200000,
-      createdBy: "Anonim",
-    },
-    {
-      id: 5,
-      name: "Perbaikan Komputer",
-      date: "2025-01-25",
-      category: "Kas Keluar",
-      amount: 450000,
-      createdBy: "Teknisi",
-    },
-    {
-      id: 6,
-      name: "Iuran Bulanan",
-      date: "2025-01-28",
-      category: "Kas Masuk",
-      amount: 800000,
-      createdBy: "Bendahara",
-    },
-    {
-      id: 7,
-      name: "Penjualan Aset",
-      date: "2025-01-29",
-      category: "Kas Masuk",
-      amount: 1200000,
-      createdBy: "Manager",
-    },
-    {
-      id: 8,
-      name: "Biaya Listrik",
-      date: "2025-01-30",
-      category: "Kas Keluar",
-      amount: 350000,
-      createdBy: "Admin",
-    },
-    {
-      id: 9,
-      name: "Dana Pengembangan",
-      date: "2025-02-01",
-      category: "Kas Masuk",
-      amount: 500000,
-      createdBy: "Clara",
-    },
-    {
-      id: 10,
-      name: "Pembelian Peralatan",
-      date: "2025-02-05",
-      category: "Kas Keluar",
-      amount: 900000,
-      createdBy: "Teknisi",
-    },
-    {
-      id: 11,
-      name: "Pelunasan Utang",
-      date: "2025-02-10",
-      category: "Kas Masuk",
-      amount: 2000000,
-      createdBy: "Manager",
-    },
-  ];
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const res = await getTransactions(token);
+      console.log("GET TRANSACTIONS:", res.data);
+    
+      setTransactions(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+        console.log("ERR:", err);
+        setTransactions([]);
+    }
+  };
 
-  const filteredData = data.filter((item) => {
+  fetchData();
+  }, []);
+
+  const filteredData = transactions.filter((item) => {
   const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
-  const matchDate =
-    tanggalTransaksi === "" || item.date === tanggalTransaksi;
+  const matchDate = tanggalTransaksi === "" || item.date === tanggalTransaksi;
 
     return matchSearch && matchDate;
   });
-
 
   const itemsPerPage = 7;
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
@@ -226,8 +154,17 @@ export default function Transaction() {
         isOpen={isFormModalOpen}
         onClose={() => setIsFormModalOpen(false)}
         initialData={editData}
-        onSubmit={(data) => {
-          console.log("Data baru / edit:", data);
+        onSubmit={async(form) => {
+          try {
+            await createTransaction(form, token);
+
+            const res = await getTransactions(token);
+            setTransactions(res.data);
+
+            setIsFormModalOpen(false);
+          } catch (err) {
+            alert("Gagal tambah transaksi");
+          }
         }}
       />
 

@@ -13,7 +13,7 @@ function Table({
   onDetail,
 }) {
   const categoryClass =
-    item.category === "Kas Masuk"
+    item.category === "kas_masuk"
       ? "bg-green-100 text-green-700"
       : "bg-red-100 text-red-700";
 
@@ -30,13 +30,13 @@ function Table({
         <span
           className={`px-3 py-1 rounded-full text-xs font-medium ${categoryClass}`}
         >
-          {item.category}
+          {item.category == "kas_masuk" ? "Kas Masuk" : "Kas Keluar"}
         </span>
       </td>
       <td className="py-2 px-4 w-[18%] font-normal">
         {formatRupiah(item.amount)}
       </td>
-      <td className="py-2 px-4 w-[15%] text-gray-600">{item.createdBy}</td>
+      <td className="py-2 px-4 w-[15%] text-gray-600">{item.user ? item.user.name : "-"}</td>
 
       <ActionDropdown
         itemId={item.id}
