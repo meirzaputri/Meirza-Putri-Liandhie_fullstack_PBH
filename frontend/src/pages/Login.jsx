@@ -1,12 +1,37 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import Label from "../components/Label";
 import Input from "../components/Input/InputField";
 import logo from "../assets/logo.png";
 
+import { login } from "../services/auth";
+
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email,setEmail] = useState("");
+  const [password,setPassword] = useState("");
+  const [message,setMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await login({ email, password });
+    localStorage.setItem("token", res.data.access_token);
+    navigate("/apps");
+
+  } catch (err) {
+    const msg =
+      err.response?.data?.error ||
+      err.response?.data?.message ||
+      "Email atau password salah";
+
+    setMessage(msg);
+  }
+};
 
   return (
     <div className="flex md:justify-center md:items-center min-h-screen">
@@ -24,7 +49,9 @@ export default function Login() {
             </p>
           </div>
 
-          <form>
+          {message && <div className="mb-2 text-red-500">{message}</div>}
+
+          <form onSubmit={handleSubmit}>
             <div className="space-y-6">
               <div>
                 <Label htmlFor="email">
@@ -35,6 +62,8 @@ export default function Login() {
                   id="email"
                   name="email"
                   placeholder="Enter your email"
+                  value={email}
+                  onChange={(e)=>setEmail(e.target.value)}
                 />
               </div>
 
@@ -47,6 +76,8 @@ export default function Login() {
                     id="password"
                     placeholder="Enter your password"
                     type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e)=>setPassword(e.target.value)}
                   />
                   <span
                     onClick={() => setShowPassword(!showPassword)}

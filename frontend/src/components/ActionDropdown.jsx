@@ -5,6 +5,7 @@ export default function ActionDropdown({
     itemId, 
     openDropdown, 
     setOpenDropdown,
+    onDetail,
 }) {
     const dropdownRef = useRef(null);
 
@@ -36,6 +37,7 @@ export default function ActionDropdown({
                 {openDropdown === itemId && (
                     <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-xl z-10 overflow-hidden">
                         <button 
+                            onClick={() => onDetail(itemId)}
                             className="w-full text-left px-4 py-2 text-sm hover:bg-blue-50 hover:text-blue-600">
                             Detail
                         </button>

@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
+import ProtectedRoute from "../components/ProtectedRoute";
+
 
 const Login = lazy(() => import("../pages/Login"));
 const Register = lazy(() => import("../pages/Register"));
@@ -13,7 +15,11 @@ const router = createBrowserRouter([
   { path: "/signup", element: <Register /> },
   {
     path: "/apps",
-    element: <AppLayout />,
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { index: true, element: <Dashboard /> },
       { path: "dashboard", element: <Dashboard /> },

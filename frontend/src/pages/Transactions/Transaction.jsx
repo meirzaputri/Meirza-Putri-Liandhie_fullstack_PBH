@@ -4,6 +4,7 @@ import Pagination from "../../components/Pagination";
 import TransactionTable from "../../components/Tabel";
 import FilterModal from "../../components/FilterModal";
 import FormModal from "../../components/FormModal";
+import DetailModal from "../../components/DetailModal";
 import { FiFilter } from "react-icons/fi";
 import { MdAdd } from "react-icons/md";
 
@@ -19,6 +20,9 @@ export default function Transaction() {
 
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
+
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [detailData, setDetailData] = useState(null);
 
 
   const data = [
@@ -129,6 +133,17 @@ export default function Transaction() {
     page * itemsPerPage
   );
 
+    const handleDetail = (id) => {
+    const data = paginated.find((x) => x.id === id);
+
+    console.log("DETAIL DATA:", data);
+
+    setDetailData(data);
+    setDetailOpen(true);
+    setOpenDropdown(null);
+  };
+
+
   useEffect(() => setPage(1), [search]);
 
   const formatDate = (dateString) => {
@@ -187,6 +202,7 @@ export default function Transaction() {
         formatRupiah={formatRupiah}
         openDropdown={openDropdown}
         setOpenDropdown={setOpenDropdown}
+        onDetail={handleDetail}
       />
 
       <FilterModal
@@ -213,6 +229,12 @@ export default function Transaction() {
         onSubmit={(data) => {
           console.log("Data baru / edit:", data);
         }}
+      />
+
+      <DetailModal
+        isOpen={detailOpen}
+        data={detailData}
+        onClose={() => setDetailOpen(false)}
       />
 
       <hr className="my-4 border-gray-200" />

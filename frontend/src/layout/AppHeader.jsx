@@ -2,10 +2,12 @@ import React from "react";
 import logo from "../assets/logo.png";
 import { MdDehaze } from 'react-icons/md';
 import { useSidebar } from "../context/SidebarContext";
+import { useUser } from "../context/UserContext";
 
 export default function AppHeader() {
     const { toggleSidebar, toggleMobileSidebar } = useSidebar();
 
+    const { user } = useUser();
     const handleToggle = () => {
         if (window.innerWidth >= 1024) toggleSidebar();
         else toggleMobileSidebar();
@@ -35,7 +37,7 @@ export default function AppHeader() {
                 <div className="flex-1 flex items-center justify-end gap-4">
                     <div className="hidden md:flex items-center"> 
                         <span className="block font-medium text-black text-sm">
-                            Clara Melody
+                            {user ? user.name : "Loading..."}
                         </span>
                     </div>
                 </div>

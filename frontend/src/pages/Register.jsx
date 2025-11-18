@@ -1,12 +1,49 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import Label from "../components/Label";
 import Input from "../components/Input/InputField";
 import logo from "../assets/logo.png";
 
+import { register } from "../services/auth";
+
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password_confirmation, setPasswordConfirmation] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await register({
+        name,
+        email,
+        password,
+        password_confirmation,
+      });
+      localStorage.setItem("token", res.data.token);
+      navigate("/apps");
+    } catch (err) {
+      console.error("Registration failed:", err);
+
+      if (err.response) {
+        const errorMessage =
+          err.response.data?.errors?.email?.[0] ||
+          err.response.data?.message ||
+          "An unknown error occurred.";
+        setMessage(errorMessage);
+      } else {
+        setMessage(
+          "Unable to connect to the server. Please check your connection."
+        );
+      }
+    }
+  };
 
   return (
     <div className="flex md:justify-center md:items-center min-h-screen">
@@ -24,7 +61,9 @@ export default function Register() {
             </p>
           </div>
 
-          <form>
+          {message && <div className="mb-2 text-red-500">{message}</div>}
+
+          <form onSubmit={handleSubmit}>
             <div className="space-y-6">
               <div>
                 <Label htmlFor="name">
@@ -35,6 +74,8 @@ export default function Register() {
                   id="name"
                   name="name"
                   placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
 
@@ -47,6 +88,8 @@ export default function Register() {
                   id="email"
                   name="email"
                   placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -59,6 +102,33 @@ export default function Register() {
                     id="password"
                     placeholder="Enter your password"
                     type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
+                  >
+                    {showPassword ? (
+                      <MdVisibilityOff size={24} />
+                    ) : (
+                      <MdVisibility size={24} />
+                    )}
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="password_confirmation">
+                  Confirm Password<span className="text-red-500">*</span>
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="password_confirmation"
+                    placeholder="Confirm your password"
+                    type={showPassword ? "text" : "password"}
+                    value={password_confirmation}
+                    onChange={(e) => setPasswordConfirmation(e.target.value)}
                   />
                   <span
                     onClick={() => setShowPassword(!showPassword)}

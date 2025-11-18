@@ -1,6 +1,7 @@
 import React from "react";
 import ActionDropdown from "./ActionDropdown";
 import FormModal from "./FormModal";
+import DetailModal from "./DetailModal";
 import { useState } from "react";
 
 function Table({
@@ -9,6 +10,7 @@ function Table({
   formatRupiah,
   openDropdown,
   setOpenDropdown,
+  onDetail,
 }) {
   const categoryClass =
     item.category === "Kas Masuk"
@@ -40,7 +42,7 @@ function Table({
         itemId={item.id}
         openDropdown={openDropdown}
         setOpenDropdown={setOpenDropdown}
-        onEdit={() => onEdit(item.id)}  
+        onDetail={onDetail}
       />
     </tr>
   );
