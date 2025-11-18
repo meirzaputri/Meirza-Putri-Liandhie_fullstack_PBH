@@ -29,7 +29,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex md:justify-center md:items-center min-h-screen">
+    <div className="flex items-center md:justify-center md:items-center min-h-screen">
       <div className="w-full max-w-lg mx-auto bg-white p-8 sm:p-10 rounded-xl shadow-2xl dark:bg-gray-800 transition-all duration-300">
         <div className="flex justify-center m-2">
           <img src={logo} alt="PT Permata Bukit Hijau" className="w-24 h-15" />
