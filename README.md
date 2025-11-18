@@ -1,4 +1,7 @@
+---
+
 ## 🚀 Tech Stack
+
 ### **Frontend**
 - React + Vite
 - TailwindCSS
