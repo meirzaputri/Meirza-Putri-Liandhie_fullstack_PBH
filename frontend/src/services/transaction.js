@@ -18,3 +18,11 @@ export const createTransaction = async (form, token) =>
       Authorization: `Bearer ${token}`,
     },
 });
+
+export const updateTransaction = async (id, formData, token) =>
+  api.put(`/transactions/${id}`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+});
+

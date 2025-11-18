@@ -6,7 +6,7 @@ import FilterModal from "../../components/FilterModal";
 import FormModal from "../../components/FormModal";
 import DetailModal from "../../components/DetailModal";
 
-import { getTransactions, createTransaction } from "../../services/transaction";
+import { getTransactions, createTransaction, updateTransaction } from "../../services/transaction";
 import { useAuth } from "../../context/AuthContext";
 import { FiFilter } from "react-icons/fi";
 import { MdAdd } from "react-icons/md";
@@ -71,6 +71,12 @@ export default function Transaction() {
       setOpenDropdown(null);
   };
 
+  const onEdit = (id) => {
+    const selected = transactions.find((t) => t.id === id);
+    setEditData(selected);
+    setIsFormModalOpen(true);
+    setOpenDropdown(null);
+  };
 
   useEffect(() => setPage(1), [search]);
 
@@ -132,6 +138,7 @@ export default function Transaction() {
         openDropdown={openDropdown}
         setOpenDropdown={setOpenDropdown}
         onDetail={onDetail}
+        onEdit={onEdit}
       />
 
       <FilterModal
@@ -157,7 +164,11 @@ export default function Transaction() {
         initialData={editData}
         onSubmit={async(form) => {
           try {
-            await createTransaction(form, token);
+            if (editData) {
+              await updateTransaction(editData.id, form, token);
+            } else (
+              await createTransaction(form, token)
+            );
 
             const res = await getTransactions(token);
             setTransactions(res.data);

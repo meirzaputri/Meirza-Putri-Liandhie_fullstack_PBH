@@ -11,6 +11,7 @@ function Table({
   openDropdown,
   setOpenDropdown,
   onDetail,
+  onEdit,
 }) {
   const categoryClass =
     item.category === "kas_masuk"
@@ -43,6 +44,7 @@ function Table({
         openDropdown={openDropdown}
         setOpenDropdown={setOpenDropdown}
         onDetail={onDetail}
+        onEdit={onEdit}
       />
     </tr>
   );
@@ -54,7 +56,8 @@ export default function TransactionTable({
   formatRupiah,
   openDropdown,
   setOpenDropdown,
-  onDetail
+  onDetail,
+  onEdit,
 }) {
   if (!paginated || paginated.length === 0) {
     return (
@@ -94,6 +97,7 @@ export default function TransactionTable({
               openDropdown={openDropdown}
               setOpenDropdown={setOpenDropdown}
               onDetail={onDetail}
+              onEdit={onEdit}
             />
           ))}
         </tbody>

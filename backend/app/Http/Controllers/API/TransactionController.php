@@ -40,4 +40,37 @@ class TransactionController extends Controller
         return response()->json($transaction);
     }
 
+    public function update(Request $request, $id)
+    {
+        $transaction = Transaction::find($id);
+        $category = $request->category;
+
+        if ($category === 'Kas Masuk') {
+            $request->merge(['category' => 'kas_masuk']);
+        }
+
+        if ($category === 'Kas Keluar') {
+            $request->merge(['category' => 'kas_keluar']);
+        }
+
+        if (!$transaction) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'date' => 'required|date',
+            'category' => 'required|in:kas_masuk,kas_keluar',
+            'amount' => 'required|numeric',
+            'description' => 'nullable|string',
+        ]);
+
+        $transaction->update($validated);
+
+        return response()->json([
+            'message' => 'Transaction updated successfully',
+            'data' => $transaction
+        ]);
+    }
+
 }
