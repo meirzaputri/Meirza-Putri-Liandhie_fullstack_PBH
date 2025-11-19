@@ -84,6 +84,9 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
+    'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
+
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key

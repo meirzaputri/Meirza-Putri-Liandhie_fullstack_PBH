@@ -3,6 +3,7 @@
 -   Laravel 11
 -   Postgree
 -   tymon jwt (Authentication)
+-   barryvdh/laravel-dompdf (Cetak PDF)
 
 # Instalasi
 

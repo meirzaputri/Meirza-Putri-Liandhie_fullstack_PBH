@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { FiFilter } from "react-icons/fi";
+import React, { useState, useEffect, useDeferredValue } from "react";
+import { FiFilter, FiPrinter } from "react-icons/fi";
 import TransactionTable from "../../components/Tabel";
 import SearchBar from "../../components/Input/SearchBar";
 import Pagination from "../../components/Pagination";
@@ -16,15 +16,16 @@ const formatDate = (dateString) => {
 };
 
 export default function Reports() {
-    const today = new Date().toISOString().split('T')[0];
+    const getToday = () => new Date().toISOString().split('T')[0]; 
+    const [today, setToday] = useState(getToday())
     
     const [search, setSearch] = useState("");
     const [reportSummary, setReportSummary] = useState(null);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [tanggalLaporan, setTanggalLaporan] = useState(today); 
+    const [tanggalLaporan, setTanggalLaporan] = useState(getToday()); 
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-    const [tanggalPilih, setTanggalPilih] = useState(today); 
+    const [tanggalPilih, setTanggalPilih] = useState(getToday()); 
     const [page, setPage] = useState(1);
     const [openDropdown, setOpenDropdown] = useState(null); 
     const [baseTransactions, setBaseTransactions] = useState([]);
@@ -39,6 +40,13 @@ export default function Reports() {
     page * itemsPerPage
     );
 
+    useEffect(() => {
+        const todayDate = getToday();
+        setToday(todayDate);
+        setTanggalLaporan(todayDate);
+        setTanggalPilih(todayDate);
+    }, []);
+   
 
     const calculateReportData = async (tanggal) => {
         setLoading(true);
@@ -99,6 +107,13 @@ export default function Reports() {
       setOpenDropdown(null);
   };
 
+  const downloadPDF = () => {
+    const token = localStorage.getItem("token");
+    window.open(
+        `${import.meta.env.VITE_API_URL}/report/daily/pdf?date=${tanggalLaporan}&token=${token}`,
+        "_blank"
+    );
+  };
         
     return (
         <div> 
@@ -116,6 +131,14 @@ export default function Reports() {
                         >
                             <FiFilter size={20} />
                         </button>
+
+                        <button 
+                            onClick={downloadPDF}
+                            className="bg-purple-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-purple-600 shrink-0"
+                            >
+                            <FiPrinter size={20} />
+                        </button>
+
                     </div>
             </div>
 

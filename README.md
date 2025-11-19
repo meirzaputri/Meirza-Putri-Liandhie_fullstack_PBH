@@ -3,37 +3,46 @@
 ## 🚀 Tech Stack
 
 ### **Frontend**
+
 - React + Vite
 - TailwindCSS
 - Axios
 - React Router
 
 ### **Backend**
+
 - Laravel 11
 - Tymon JWT
 - Postgree
+- Barryvdh/laravel-dompdf
 
 ## 🔥 Features
+
 ### ✅ **Authentication**
-- Register  
-- Login  
-- JWT token  
-- Protected routes  
+
+- Register
+- Login
+- JWT token
+- Protected routes
 
 ### ✅ **Transactions**
-- Create transaction  
-- Edit transaction  
-- Delete transaction  
-- View all transactions  
+
+- Create transaction
+- Edit transaction
+- Delete transaction
+- View all transactions
 
 ### ✅ **Reports**
+
 - Daily report
-- Summary:  
-  - Total Kas Masuk  
-  - Total Kas Keluar  
+- Summary:
+  - Total Kas Masuk
+  - Total Kas Keluar
   - Saldo (Automatically calculated)
- 
+- PDF Report (Cetak PDF)
+
 ## 👩‍💻 **Instalation**
+
 - Clone Repository
 - Instalation Backend
   ```
@@ -51,6 +60,3 @@
   setup .env.local
   npm run dev
   ```
-
- 
-

@@ -19,6 +19,6 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/transactions/{id}', [TransactionController::class, 'destroy']);
 
     Route::get('/laporan/harian', [ReportController::class, 'daily']);
-
+    Route::get('/report/daily/pdf', [ReportController::class, 'dailyPdf']);
     });
 ?>
